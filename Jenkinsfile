@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh "chmod 777 /var/www/jenkins-react-app/*"
                 sh "rm -rf /var/www/jenkins-react-app/*"
-                sh "unzip ${BUILDTAG}.zip"
+                sh "unzip -o ${BUILDTAG}.zip"
                 sh "cp -r build/* /var/www/jenkins-react-app/"
                 sh "chmod 555 /var/www/jenkins-react-app/*"
             }
