@@ -14,7 +14,7 @@ pipeline {
                 sh "chmod 777 /var/www/jenkins-react-app/*"
                 sh "rm -rf /var/www/jenkins-react-app/*"
                 sh "cp -r ${BUILDTAG}.zip /var/www/jenkins-react-app/"
-                sh "unzip /var/www/jenkins-react-app/${BUILDTAG}.zip'
+                sh "unzip /var/www/jenkins-react-app/${BUILDTAG}.zip"
                 sh "chmod 555 /var/www/jenkins-react-app/*"
             }
         }  
