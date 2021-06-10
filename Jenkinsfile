@@ -11,8 +11,8 @@ pipeline {
         }      
         stage("Deploy") {
             steps {
-                sh "chmod 777 /var/www/jenkins-react-app"
-                sh "rm -rf /var/www/jenkins-react-app/*"
+              //  sh "chmod 777 /var/www/jenkins-react-app"
+              //  sh "rm -rf /var/www/jenkins-react-app/*"
                 sh "unzip -o ${BUILDTAG}.zip"
                 sh "cp -r build/* /var/www/jenkins-react-app/"
                 sh "chmod 555 /var/www/jenkins-react-app/*"
