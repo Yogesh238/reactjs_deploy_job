@@ -12,7 +12,7 @@ pipeline {
         stage("Deploy") {
             steps {
                // sh "service nginx stop"
-                sh "sudo chmod 777 /var/www/jenkins-react-app/*"
+                sh "sudo chmod 777 /var/www/jenkins-react-app/"
               //  sh "sudo rm -rf /var/www/jenkins-react-app/*"
                 sh "unzip -o ${BUILDTAG}.zip"
                 sh "sudo cp -r build/* /var/www/jenkins-react-app/"
