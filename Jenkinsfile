@@ -14,26 +14,26 @@ pipeline {
                 sshagent(credentials : ['applicationserver']) { 
                      script {
                      if ( params.ENVIRONMENT=='prod') {
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/go/go-web goweb.service'
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/prod nginx.service'
                     }
                      else if ( params.ENVIRONMENT=='stage') {                   
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/go/go-stage gostage.service'
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/stage nginx.service'
                          
                                 }
                             }
                         }
                     }
                 }
-        stage("Deploy") {
-            steps {
-               // sh "service nginx stop"
-                sh "sudo chmod 777 /var/www/jenkins-react-app/"
-              //  sh "sudo rm -rf /var/www/jenkins-react-app/*"
-                sh "unzip -o ${BUILDTAG}.zip"
-                sh "sudo cp -r build/* /var/www/jenkins-react-app/"
-                sh "sudo chmod 555 /var/www/jenkins-react-app/*"
-              //  sh "service nginx start"
-            }
-        }  
+//         stage("Deploy") {
+//             steps {
+//                // sh "service nginx stop"
+//                 sh "sudo chmod 777 /var/www/jenkins-react-app/"
+//               //  sh "sudo rm -rf /var/www/jenkins-react-app/*"
+//                 sh "unzip -o ${BUILDTAG}.zip"
+//                 sh "sudo cp -r build/* /var/www/jenkins-react-app/"
+//                 sh "sudo chmod 555 /var/www/jenkins-react-app/*"
+//               //  sh "service nginx start"
+//             }
+//         }  
      }
 }
