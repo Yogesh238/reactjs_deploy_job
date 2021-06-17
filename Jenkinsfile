@@ -1,6 +1,7 @@
 pipeline {
     agent any
     parameters {
+        choice(choices: ['stage', 'prod'], description: 'Choose the environment in which you want to deploy:', name: 'ENVIRONMENT')
         string(defaultValue: 'latest', description: 'Enter BUILD NUMBER to deploy [Default Value: latest]:', name: 'BUILDTAG', trim: false)
     }
  stages {
