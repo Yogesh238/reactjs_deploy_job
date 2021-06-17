@@ -15,10 +15,10 @@ pipeline {
                 sshagent(credentials : ['applicationserver']) { 
                      script {
                      if ( params.ENVIRONMENT=='prod') {
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/prod nginx.service'
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/prod nginx'
                     }
                      else if ( params.ENVIRONMENT=='stage') {                   
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/stage nginx.service'
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/stage nginx'
                          
                                 }
                             }
