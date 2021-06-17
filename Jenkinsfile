@@ -8,7 +8,22 @@ pipeline {
             steps {
                 sh 'aws s3 cp s3://kupos-reactjs-project/${BUILDTAG}.zip .'
             }
-        }      
+        } 
+          stage("Deploy"){
+             steps{
+                sshagent(credentials : ['applicationserver']) { 
+                     script {
+                     if ( params.ENVIRONMENT=='prod') {
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/go/go-web goweb.service'
+                    }
+                     else if ( params.ENVIRONMENT=='stage') {                   
+                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/go/go-stage gostage.service'
+                         
+                                }
+                            }
+                        }
+                    }
+                }
         stage("Deploy") {
             steps {
                // sh "service nginx stop"
