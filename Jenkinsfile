@@ -6,35 +6,43 @@ pipeline {
     }
  stages {
      stage('Pull from Artifactory') {
-            steps {
-                sh 'aws s3 cp s3://kupos-reactjs-project/${BUILDTAG}.zip .'
-            }
-        } 
+         steps {
+                script {
+                     if ( params.ENVIRONMENT=='prod') {
+                         sh 'aws s3 cp s3://kupos-reactjs-prod/${BUILDTAG}.zip .'
+                    }
+                     else if ( params.ENVIRONMENT=='stage') {   
+                         sh 'aws s3 cp s3://kupos-reactjs-stage/${BUILDTAG}.zip .'
+                                }
+                            }
+                }
+        }
           stage("Deploy"){
              steps{
                 sshagent(credentials : ['applicationserver']) { 
                      script {
                      if ( params.ENVIRONMENT=='prod') {
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/prod nginx.service'
+                          sh 'sh deploy.sh $PROD_SERVER /home/ubuntu/reactjs/prod nginx.service'
                     }
                      else if ( params.ENVIRONMENT=='stage') {                   
-                          sh 'sh deploy.sh 172.31.83.95 /home/ubuntu/reactjs/stage nginx.service'
+                          sh 'sh deploy.sh $STAGE_SERVER /home/ubuntu/reactjs/stage nginx.service'
                          
                                 }
                             }
                         }
                     }
                 }
-//         stage("Deploy") {
-//             steps {
-//                // sh "service nginx stop"
-//                 sh "sudo chmod 777 /var/www/jenkins-react-app/"
-//               //  sh "sudo rm -rf /var/www/jenkins-react-app/*"
-//                 sh "unzip -o ${BUILDTAG}.zip"
-//                 sh "sudo cp -r build/* /var/www/jenkins-react-app/"
-//                 sh "sudo chmod 555 /var/www/jenkins-react-app/*"
-//               //  sh "service nginx start"
-//             }
-//         }  
+     stage('Infra Sanity Check') {
+          steps{
+           script {
+                     if ( params.ENVIRONMENT=='prod') {
+                        sh 'python3 infra_sanity_test.py PROD http://$PROD_SERVER:2001'
+                    }
+                     else if ( params.ENVIRONMENT=='stage') {
+                        sh 'python3 infra_sanity_test.py STAGE http://$STAGE_SERVER:2000'
+                                }
+                           }
+                }
+          }      
      }
 }
