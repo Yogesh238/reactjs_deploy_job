@@ -1,5 +1,5 @@
 #!/bin/bash
-ssh -o StrictHostKeyChecking=no ubuntu@${1} sudo systemctl stop ${3}
-scp ${BUILDTAG}.zip ubuntu@${1}:${2}
-ssh -o StrictHostKeyChecking=no ubuntu@${1} unzip -o ${2}/${BUILDTAG}.zip -d ${2}
-ssh -o StrictHostKeyChecking=no ubuntu@${1} sudo systemctl start ${3}
+sleep 60s
+tag=`aws s3api head-object --bucket kt-session-yogesh-sachin --key KT_Demo/demo.zip --query ETag --output=text`
+echo $tag
+aws deploy create-deployment --application-name KT_Demo --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name KT_Demo_dg --description "deployment" --s3-location bucket=kt-session-yogesh-sachin,bundleType=zip,eTag=${tag},key=KT_Demo/demo.zip
